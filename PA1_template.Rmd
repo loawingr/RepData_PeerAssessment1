@@ -105,3 +105,33 @@ summary(filledAggregate$steps)
 diffMean <- filledMean - cleanedMean
 diffMedian <- filledMedian - cleanedMedian
 ```
+## Are there differences in activity patterns between weekdays and weekends?
+
+### Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day
+```{r echo=TRUE}
+dayType <- function(row){
+  date <- as.Date(as.character(row["date"]), format="%Y-%m-%d")
+  
+  ##convert date to weekday name
+  weekday <- weekdays(as.POSIXct(date), abbreviate = F)
+  
+  ##determine day type using condition on weekday name
+  if (weekday == "Saturday" || weekday == "Sunday"){
+      retval <- "weekend"
+  } else if(weekday == "Monday" || weekday == "Tuesday" || weekday == "Wednesday" 
+            ||weekday == "Thursday" ||weekday == "Friday") {
+      retval <- "weekday"
+  } else {
+      retval <- NA
+  }
+  return(retval)
+}
+## create new column based on row values
+filledAggregate$dayType <- apply(filledAggregate, 1, FUN=dayType)
+## convert column from chr to factor class
+filledAggregate$dayType <- as.factor(filledAggregate$dayType)
+```
+### Make a panel plot containing a time series plot (i.e. type="l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+
+```{r echo=TRUE}
+```
