@@ -8,11 +8,30 @@ output:
 
 ## Loading and preprocessing the data
 
-
+```{r load the data, echo=TRUE}
+unzip("./activity.zip")
+activity = read.csv("./activity.csv")
+## remove rows that have steps = NA
+cleaned<-na.omit(activity)
+## convert date column to date type
+cleaned$actualDate <- as.Date(as.character(cleaned$date), format = "%Y-%m-%d")
+```
 
 ## What is mean total number of steps taken per day?
 
-
+### Calculate the total number of steps taken per day
+```{r q1, echo=TRUE}
+aggregation <- aggregate(. ~date, data = cleaned, FUN = sum)
+```
+### Make a histogram of the total number of steps taken each day
+```{r q1, echo=TRUE}
+hist(aggregation$steps, main = "Histogram of steps taken per day", xlab="Steps taken per day")
+```
+### Calculate and report the mean and median of the total number of steps taken per day
+```{r q1, echo=TRUE}
+mean(aggregation$steps)
+median(aggregation$steps)
+```
 
 ## What is the average daily activity pattern?
 
