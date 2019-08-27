@@ -136,4 +136,36 @@ filledAggregate$dayType <- as.factor(filledAggregate$dayType)
 ### Make a panel plot containing a time series plot (i.e. type="l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
 ```{r echo=TRUE}
+#split the plot pane into 2 stacked containers for each time series to sit in
+par(mfrow = c(2,1))
+
+## create new column based on row values
+activity$dayType <- apply(activity, 1, FUN=dayType)
+## convert column from chr to factor class
+activity$dayType <- as.factor(activity$dayType)
+
+##create data frame that only has weekend data
+weekend <- activity[which(activity$dayType == "weekend"),]
+##create data frame that only has weekday data
+weekday <- activity[which(activity$dayType == "weekday"),]
+## aggregate each type of week day type by 5 minute interval
+weekendAggregate <- aggregate(steps ~interval, data = weekend, FUN = mean)
+weekdayAggregate <- aggregate(steps ~interval, data = weekday, FUN = mean)
+
+## plot weekend time series
+plot(weekend$interval,
+    weekend$steps,
+    type="l",
+    xlab="Interval",
+    ylab="Number of steps",
+    main="weekend")
+
+## plot weekday time series
+plot(weekday$interval,
+    weekday$steps,
+    type="l",
+    xlab="Interval",
+    ylab="Number of steps",
+    main="weekday")
+
 ```
