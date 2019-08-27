@@ -104,6 +104,8 @@ summary(filledAggregate$steps)
 ```{r echo=TRUE}
 diffMean <- filledMean - cleanedMean
 diffMedian <- filledMedian - cleanedMedian
+print(diffMean)
+print(diffMedian)
 ```
 ## Are there differences in activity patterns between weekdays and weekends?
 
